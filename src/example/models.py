@@ -3,8 +3,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from enum import auto, StrEnum
 from datetime import datetime, UTC
-from src.models import BaseModel
-
+from src.models import BaseModel  
 
 class Persona(BaseModel):
     __tablename__ = "personas"
@@ -18,6 +17,9 @@ class Persona(BaseModel):
     )
     mascotas: Mapped[Optional[List["Mascota"]]] = relationship(
         "Mascota", back_populates="tutor"
+    )
+    vehiculos: Mapped[Optional[List["Vehiculo"]]] = relationship(
+        "Vehiculo", back_populates="duenio"
     )
 
 
@@ -47,3 +49,27 @@ class Mascota(BaseModel):
     @property
     def nombre_tutor(self):
         return self.tutor.nombre
+
+class TipoVehiculo(StrEnum):
+    AUTO = auto()
+    CAMION = auto()
+    CAMIONETA = auto()
+
+class Vehiculo(BaseModel):
+    __tablename__ = "vehiculos"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    marca: Mapped[str] = mapped_column(String, index=True)
+    tipo: Mapped[TipoVehiculo] = mapped_column(String) 
+    duenio_id: Mapped[int] = mapped_column(
+        ForeignKey("personas.id")
+    )  # Foreign key a Persona
+    duenio: Mapped[Persona] = relationship("Persona", back_populates="vehiculos")
+    fecha_creacion: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+    fecha_modificacion: Mapped[datetime] = mapped_column(
+        DateTime, default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC)
+    )
+
+    @property
+    def nombre_duenio(self):
+        return self.duenio.nombre
+  

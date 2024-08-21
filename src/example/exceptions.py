@@ -9,6 +9,8 @@ class PersonaNoEncontrada(NotFound):
 class MascotaNoEncontrada(NotFound):
     DETAIL = ErrorCode.MASCOTA_NO_ENCONTRADA
 
+class VehiculoNoEncontrada(NotFound):
+    DETAIL = ErrorCode.VEHICULO_NO_ENCONTRADA
 
 class EmailDuplicado(BadRequest):
     DETAIL = ErrorCode.EMAIL_DUPLICADO
@@ -21,8 +23,17 @@ class NombreDuplicado(BadRequest):
 class PersonaTieneMascotas(BadRequest):
     DETAIL = ErrorCode.PERSONA_TIENE_MASCOTAS
 
+class PersonaTieneVehiculo(BadRequest):
+    DETAIL = ErrorCode.PERSONA_TIENE_VEHICULO
+
 class TipoMascotaInvalido(ValueError):
     def __init__(self, posibles_tipos: List[str]):
         posibles_tipos = ", ".join(posibles_tipos)
         message = f"{ErrorCode.TIPO_MASCOTA_INVALIDO} {posibles_tipos}."
+        super().__init__(message)
+        
+class TipoVehiculoInvalido(ValueError):
+    def __init__(self, posibles_tipos: List[str]):
+        posibles_tipos = ", ".join(posibles_tipos)
+        message = f"{ErrorCode.TIPO_VEHICULO_INVALIDO} {posibles_tipos}."
         super().__init__(message)
