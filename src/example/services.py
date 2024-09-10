@@ -40,7 +40,7 @@ def eliminar_persona(db: Session, persona_id: int) -> Persona:
 
 
 def crear_mascota(db: Session, mascota: schemas.MascotaCreate) -> Mascota:
-    return Mascota.create(db, mascota)
+    return Mascota.create(db, nombre=mascota.nombre, tipo=mascota.tipo, tutor_id=mascota.tutor_id)
 
 
 

@@ -37,7 +37,6 @@ class Persona(PersonaBase):
 class MascotaBase(BaseModel):
     nombre: str
     tipo: TipoMascota  # solo permitiremos valores de este tipo.
-
     @field_validator("tipo", mode="before")
     @classmethod
     def is_valid_tipo_mascota(cls, v: str) -> str:

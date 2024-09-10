@@ -72,4 +72,3 @@ class Vehiculo(BaseModel):
     @property
     def nombre_duenio(self):
         return self.duenio.nombre
-  

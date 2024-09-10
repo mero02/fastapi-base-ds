@@ -5,6 +5,8 @@ from src.exceptions import NotFound, BadRequest, PermissionDenied
 class PersonaNoEncontrada(NotFound):
     DETAIL = ErrorCode.PERSONA_NO_ENCONTRADA
 
+class PaseoNoEncontrada(NotFound):
+    DETAIL = ErrorCode.PERSONA_NO_ENCONTRADA
 
 class MascotaNoEncontrada(NotFound):
     DETAIL = ErrorCode.MASCOTA_NO_ENCONTRADA
@@ -21,6 +23,9 @@ class NombreDuplicado(BadRequest):
 
 
 class PersonaTieneMascotas(BadRequest):
+    DETAIL = ErrorCode.PERSONA_TIENE_MASCOTAS
+
+class PaseoTieneMascotas(BadRequest):
     DETAIL = ErrorCode.PERSONA_TIENE_MASCOTAS
 
 class PersonaTieneVehiculo(BadRequest):
