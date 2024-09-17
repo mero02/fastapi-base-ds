@@ -1,6 +1,6 @@
 from typing import List
 from sqlalchemy.orm import Session
-from src.example.models import Persona, Mascota, Vehiculo
+from src.example.models import Persona, Mascota, Vehiculo, Paseo
 from src.example import schemas, exceptions
 
 # operaciones CRUD para Personas
@@ -71,7 +71,7 @@ def eliminar_mascota(db: Session, mascota_id: int) -> Mascota:
 
 
 def crear_vehiculo(db: Session, vehiculo: schemas.VehiculoCreate) -> Vehiculo:
-    return Vehiculo.create(db, vehiculo)
+    return Vehiculo.create(db, marca=vehiculo.marca, tipo=vehiculo.tipo, duenio_id=vehiculo.duenio_id)
 
 
 
@@ -97,3 +97,31 @@ def eliminar_vehiculo(db: Session, vehiculo_id: int) -> Vehiculo:
     db_vehiculo = leer_vehiculo(vehiculo_id)
     db_vehiculo.delete(db)
     return db_vehiculo
+
+
+# operaciones CRUD para Paseo
+
+def crear_paseo(db: Session, paseo: schemas.PaseoCreate) -> Paseo:
+    return Paseo.create(db, mascota_id=paseo.mascota_id, vehiculo_id=paseo.vehiculo_id)
+
+
+def listar_paseos(db: Session) -> List[Paseo]:
+    return Paseo.get_all(db)
+
+
+def leer_paseo(db: Session, paseo_id: int) -> Paseo:
+    db_paseo = Paseo.get(db, paseo_id)
+    if db_paseo is None:
+        raise exceptions.PaseoNoEncontrado()
+    return db_paseo
+
+
+def modificar_paseo(db: Session, paseo_id: int, paseo: schemas.PaseoCreate) -> Paseo:
+    db_paseo = leer_paseo(db, paseo_id)
+    return db_paseo.update(db, mascota_id=paseo.mascota_id, vehiculo_id=paseo.vehiculo_id, fecha=paseo.fecha)
+
+
+def eliminar_paseo(db: Session, paseo_id: int) -> Paseo:
+    db_paseo = leer_paseo(db, paseo_id)
+    db_paseo.delete(db)
+    return db_paseo

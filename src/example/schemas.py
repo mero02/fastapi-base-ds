@@ -66,7 +66,7 @@ class Mascota(MascotaBase):
 # Vehiculo
 
 class VehiculoBase(BaseModel):
-    nombre: str
+    marca: str
     tipo: TipoVehiculo  # solo permitiremos valores de este tipo.
 
     @field_validator("tipo", mode="before")
@@ -78,7 +78,7 @@ class VehiculoBase(BaseModel):
 
 
 class VehiculoCreate(VehiculoBase):
-    tutor_id: int
+    duenio_id: int
 
 
 class VehiculoUpdate(VehiculoBase):
@@ -94,3 +94,25 @@ class Vehiculo(VehiculoBase):
     nombre_duenio: str
 
     model_config = {"from_attributes": True}
+    
+    
+    
+# Paseo
+
+class PaseoBase(BaseModel):
+    mascota_id: int
+    vehiculo_id: int
+
+class PaseoCreate(PaseoBase):
+    pass
+
+class PaseoUpdate(PaseoBase):
+    pass
+
+class Paseo(PaseoBase):
+    id: int
+    fecha_creacion: datetime
+    fecha_modificacion: datetime
+
+    class Config:
+        from_attributes = True

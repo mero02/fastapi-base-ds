@@ -91,3 +91,31 @@ def update_vehiculo(
 @router.delete("/vehiculos/{vehiculo_id}", response_model=schemas.Vehiculo)
 def delete_vehiculo(vehiculo_id: int, db: Session = Depends(get_db)):
     return services.eliminar_vehiculo(db, vehiculo_id)
+
+
+
+# Rutas para Paseos
+
+@router.post("/paseos", response_model=schemas.Paseo)
+def create_paseo(paseo: schemas.PaseoCreate, db: Session = Depends(get_db)):
+    return services.crear_paseo(db, paseo)
+
+
+@router.get("/paseos", response_model=list[schemas.Paseo])
+def read_paseos(db: Session = Depends(get_db)):
+    return services.listar_paseos(db)
+
+
+@router.get("/paseos/{paseo_id}", response_model=schemas.Paseo)
+def read_paseo(paseo_id: int, db: Session = Depends(get_db)):
+    return services.leer_paseo(db, paseo_id)
+
+
+@router.put("/paseos/{paseo_id}", response_model=schemas.Paseo)
+def update_paseo(paseo_id: int, paseo: schemas.PaseoCreate, db: Session = Depends(get_db)):
+    return services.modificar_paseo(db, paseo_id, paseo)
+
+
+@router.delete("/paseos/{paseo_id}", response_model=schemas.Paseo)
+def delete_paseo(paseo_id: int, db: Session = Depends(get_db)):
+    return services.eliminar_paseo(db, paseo_id)
